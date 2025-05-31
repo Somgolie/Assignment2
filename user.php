@@ -16,4 +16,10 @@ Class User{
       ':password' => $password
     ]);
   }
+public function username_exists($username) {
+    $db = db_connect();
+    $statement = $db->prepare("SELECT COUNT(*) FROM users WHERE username = :username;");
+    $statement->execute([':username' => $username]);
+    return $statement->fetchColumn() > 0;
+}
 }

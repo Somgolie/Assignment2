@@ -11,14 +11,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if (!empty($username) && !empty($password)) {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        if ($user->create_user($username, $hashedPassword)) {
-            // Redirect to index.php
-            header("Location: index.php");
-            exit(); // Stop script execution after redirect
+        if ($user->username_exists($username)) {
+            $message = "Username already taken. Please choose another.";
         } else {
-            $message = "Failed to create account.";
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            if ($user->create_user($username, $hashedPassword)) {
+                header("Location: index.php");
+                exit();
+            } else {
+                $message = "Failed to create account.";
+            }
         }
     } else {
         $message = "Please fill in both fields.";
