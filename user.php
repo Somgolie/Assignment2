@@ -22,5 +22,10 @@ public function username_exists($username) {
     $statement->execute([':username' => $username]);
     return $statement->fetchColumn() > 0;
 }
-
+public function get_user_by_username($username) {
+    $db = db_connect();
+    $statement = $db->prepare("SELECT * FROM users WHERE username = :username;");
+    $statement->execute([':username' => $username]);
+    return $statement->fetch(PDO::FETCH_ASSOC);
+}
 }

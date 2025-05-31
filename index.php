@@ -12,7 +12,7 @@ $current_date = date("l, F j, Y");
 </head>
 <body>
 
-<h1>Assignment 1</h1>
+<h1>Assignment 2</h1>
   <p> Welcome Back, <?=$_SESSION['username'] ?></p>
   <p> Today is <?=$current_date?></p>
 

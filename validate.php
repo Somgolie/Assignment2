@@ -1,26 +1,24 @@
 <?php
 session_start();
-
-$valid_username = "Admin";
-$valid_password = "Fish";
+require_once('user.php');
 
 $username = $_REQUEST['username'];
-$_SESSION['username'] = $username;
 $password = $_REQUEST['password'];
+$_SESSION['username'] = $username;
 
+$user = new User();
+$user_data = $user->get_user_by_username($username);
 
-if ($username == $valid_username && $password == $valid_password) {
+if ($user_data && password_verify($password, $user_data['password'])) {
     $_SESSION['authenticated'] = 1;
     header("Location: /");
-}
-else{
-    if(!isset($_SESSION['attempts'])){
-      $_SESSION['attempts'] = 1; 
-    }else{
-      $_SESSION['attempts'] = $_SESSION['attempts'] + 1;
+    exit();
+} else {
+    if (!isset($_SESSION['attempts'])) {
+        $_SESSION['attempts'] = 1;
+    } else {
+        $_SESSION['attempts'] += 1;
     }
     header("Location: /login.php");
-
-
+    exit();
 }
-?>

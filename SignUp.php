@@ -7,11 +7,9 @@ $user = new User();
 $message = "";
 
 function is_password_strong($password) {
-    $words = preg_split('/\s+/', trim($password));
     $hasNumber = preg_match('/\d/', $password);
-    return count($words) >= 5 && $hasNumber;
+    return strlen($password) >= 5 && $hasNumber;
 }
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
