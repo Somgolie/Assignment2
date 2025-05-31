@@ -22,4 +22,5 @@ public function username_exists($username) {
     $statement->execute([':username' => $username]);
     return $statement->fetchColumn() > 0;
 }
+
 }

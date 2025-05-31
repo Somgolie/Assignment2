@@ -6,12 +6,20 @@ session_destroy();
 $user = new User();
 $message = "";
 
+function is_password_strong($password) {
+    $words = preg_split('/\s+/', trim($password));
+    $hasNumber = preg_match('/\d/', $password);
+    return count($words) >= 5 && $hasNumber;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
 
     if (!empty($username) && !empty($password)) {
-        if ($user->username_exists($username)) {
+        if (!is_password_strong($password)) {
+            $message = "Password must be at least 5 words and contain at least 1 number.";
+        } elseif ($user->username_exists($username)) {
             $message = "Username already taken. Please choose another.";
         } else {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
